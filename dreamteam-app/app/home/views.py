@@ -3,7 +3,7 @@ from flask_login import login_required
 
 from . import home
 
-import os
+import socket
 
 @home.route('/')
 def homepage():
