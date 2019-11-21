@@ -1,6 +1,7 @@
 FROM python:2.7
 RUN pip install nose
 RUN pip install selenium
+RUN pip install nose-enhanced-descriptions
 
 COPY qa_automation.py .
 
@@ -16,4 +17,4 @@ RUN wget http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.stora
 RUN unzip chromedriver_linux64.zip -d /usr/local/lib/python2.7/site-packages/selenium/webdriver/chrome/
 
 # run the actual selenium test
-CMD ["nosetests", "/qa_automation.py"]
+CMD ["nosetests", "qa_automation.py", "--verbose", "--with-enhanced-descriptions"]
