@@ -62,7 +62,7 @@ def test_login():
 
 def test_dashboard():
     """Dashboard must get open with hostname"""
-    dashboard_caption = browser.find_element_by_xpath('//h3[text()="The page is being served from e3012b919053!"]')
+    dashboard_caption = browser.find_element_by_xpath('//h3[starts-with(text(),"The page is being served from")]')
     return assert_is_not_none(dashboard_caption.text)
 
 
