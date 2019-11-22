@@ -7,8 +7,7 @@ trigger:
 - master
 
 pool:
-  name: Azure Pipelines
-  demands: java
+  vmImage: 'ubuntu-16.04'
 
 steps:
 - task: SonarSource.sonarqube.15B84CA1-B62F-4A2A-A403-89B77A063157.SonarQubePrepare@4
