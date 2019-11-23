@@ -28,12 +28,16 @@ stages:
     - task: SonarSource.sonarqube.6D01813A-9589-4B15-8491-8164AEB38055.SonarQubeAnalyze@4
       displayName: 'Run Code Analysis'
 
-    - task: Docker@2
-      displayName: buildAndPush
-      inputs:
-        containerRegistry: kidockerhub
-        repository: kingalech/dreamteam
-        Dockerfile: 'dreamteam-app/Dockerfile'
+    - task: SonarSource.sonarqube.291ed61f-1ee4-45d3-b1b0-bf822d9095ef.SonarQubePublish@4
+      displayName: 'Publish Quality Gate Result'
+
+
+#    - task: Docker@2
+#      displayName: buildAndPush
+#      inputs:
+#        containerRegistry: kidockerhub
+#        repository: kingalech/dreamteam
+#        Dockerfile: 'dreamteam-app/Dockerfile'
 
 - stage: Deploy
   
