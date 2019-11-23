@@ -35,3 +35,15 @@ stages:
         repository: kingalech/dreamteam
         Dockerfile: 'dreamteam-app/Dockerfile'
 
+- stage: Deploy
+  
+  jobs:
+  - job: Deploy
+    steps:
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Write your commands here
+          
+          echo 'Hello world'
