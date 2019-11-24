@@ -11,7 +11,8 @@ stages:
 
   jobs: 
   - job: Build
-
+    variables:
+    - group: SonarQubeVarialbes
     pool:
       vmImage: 'ubuntu-16.04'
 
@@ -34,7 +35,7 @@ stages:
         targetType: 'inline'
         script: |
           # Write your commands here
-          
+          echo "Sonar Server is $sonar_server"
           cat $(System.DefaultWorkingDirectory)/.scannerwork/report-task.txt
 
 
