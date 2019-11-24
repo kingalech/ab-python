@@ -29,14 +29,6 @@ stages:
     - task: SonarSource.sonarqube.6D01813A-9589-4B15-8491-8164AEB38055.SonarQubeAnalyze@4
       displayName: 'Run Code Analysis'
 
-    # - task: Bash@3
-    #   displayName: "Print the task id"
-    #   inputs:
-    #     targetType: 'inline'
-    #     script: |
-    #       # Write your commands here
-    #       echo "Sonar Server is $(sonar_server)"
-    #       sh $(System.DefaultWorkingDirectory)/quality-gate-checker.sh 
     - task: ShellScript@2
       displayName: "Print the task id"
       inputs:
@@ -47,17 +39,19 @@ stages:
       displayName: 'Publish Quality Gate Result'
 
 
-#    - task: Docker@2
-#      displayName: buildAndPush
-#      inputs:
-#        containerRegistry: kidockerhub
-#        repository: kingalech/dreamteam
-#        Dockerfile: 'dreamteam-app/Dockerfile'
+  #  - task: Docker@2
+  #    displayName: buildAndPush
+  #    inputs:
+  #      containerRegistry: kidockerhub
+  #      repository: kingalech/dreamteam
+  #      Dockerfile: 'dreamteam-app/Dockerfile'
 
 - stage: Deploy
   
   jobs:
   - job: Deploy
+    pool:
+    vmImage: 'ubuntu-16.04'
     steps:
     - task: Bash@3
       inputs:
