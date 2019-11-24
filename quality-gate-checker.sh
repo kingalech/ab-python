@@ -9,7 +9,7 @@ ceTaskId=$(head -5 $3 | tail -1)
 taskId=$(echo "$ceTaskId" | cut -d'=' -f 2)
 
 ## Checking for the request server status.
-STATUS=$(curl -u $sonar_token: -s -o /dev/null -w '%{http_code}' http://$sonar_server/api/ce/task?id=$taskId)
+STATUS=$(curl -s -u $sonar_token: -s -o /dev/null -w '%{http_code}' http://$sonar_server/api/ce/task?id=$taskId)
 echo $STATUS
 if [ $STATUS != 200 ]
 then
@@ -17,19 +17,19 @@ then
 	exit 1
 fi
 
-taskStatus=$(curl -u $sonar_token: http://$sonar_server/api/ce/task?id=$taskId | jq -r .task.status)
+taskStatus=$(curl -s -u $sonar_token: http://$sonar_server/api/ce/task?id=$taskId | jq -r .task.status)
 while [ "$taskStatus" = "PENDING" ] || [ "$taskStatus" = "IN_PROGRESS" ]
 do
 	clear
 	echo "Task $taskId status is: $taskStatus, new retry in 5 seconds" 
 	sleep 5
-	taskStatus=$(curl -u $sonar_token: http://$sonar_server/api/ce/task?id=$taskId | jq -r .task.status)
+	taskStatus=$(curl -s -u $sonar_token: http://$sonar_server/api/ce/task?id=$taskId | jq -r .task.status)
 done
 
 if [ "$taskStatus" = "SUCCESS" ]
 then
-	analysisId=$(curl -u $sonar_token: http://$sonar_server/api/ce/task?id=$taskId | jq -r .task.analysisId)
-	quality_gatesstatus=$(curl -u $sonar_token: http://$sonar_server/api/qualitygates/project_status?analysisId=$analysisId | jq -r .projectStatus.status)
+	analysisId=$(curl -s -u $sonar_token: http://$sonar_server/api/ce/task?id=$taskId | jq -r .task.analysisId)
+	quality_gatesstatus=$(curl -s -u $sonar_token: http://$sonar_server/api/qualitygates/project_status?analysisId=$analysisId | jq -r .projectStatus.status)
 else
 	echo "The analysis was not SUCCESS, it was $taskStatus"
 	exit 1
