@@ -55,6 +55,7 @@ stages:
     variables:
     - group: DEV-Variables
     - group: GlobalVars
+    - group: keys
     steps:
     - task: Bash@3
       displayName: Fetch CloudHedge CLI
@@ -73,7 +74,7 @@ stages:
         script: |     
           echo "Logging to Cloudhedge application server"
 
-          echo $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(chpassword) --server=$(churl)
+          echo $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(ch-password) --server=$(churl)
 
           $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(chpassword) --server=$(churl)
 
