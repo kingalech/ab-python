@@ -41,7 +41,7 @@ stages:
       displayName: "Print the task id"
       inputs:
         scriptPath: "$(System.DefaultWorkingDirectory)/quality-gate-checker.sh"
-        args: "$(sonar_server) $(sonar_token) $(System.DefaultWorkingDirectory)/.scannerwork/report-task.txt"
+        args: "$(sonar_token) $(sonar_server) $(System.DefaultWorkingDirectory)/.scannerwork/report-task.txt"
 
     - task: SonarSource.sonarqube.291ed61f-1ee4-45d3-b1b0-bf822d9095ef.SonarQubePublish@4
       displayName: 'Publish Quality Gate Result'
