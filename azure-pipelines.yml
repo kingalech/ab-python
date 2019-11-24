@@ -39,12 +39,12 @@ stages:
       displayName: 'Publish Quality Gate Result'
 
 
-  #  - task: Docker@2
-  #    displayName: buildAndPush
-  #    inputs:
-  #      containerRegistry: kidockerhub
-  #      repository: kingalech/dreamteam
-  #      Dockerfile: 'dreamteam-app/Dockerfile'
+    - task: Docker@2
+      displayName: buildAndPush
+      inputs:
+        containerRegistry: kidockerhub
+        repository: kingalech/dreamteam
+        Dockerfile: 'dreamteam-app/Dockerfile'
 
 - stage: Deploy
   
