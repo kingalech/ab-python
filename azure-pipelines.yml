@@ -36,7 +36,7 @@ stages:
         script: |
           # Write your commands here
           echo "Sonar Server is $(sonar_server)"
-          cat $(System.DefaultWorkingDirectory)/.scannerwork/report-task.txt
+          sh $(System.DefaultWorkingDirectory)/quality-gate-checker.sh $(sonar_server) $(sonar_token) $(System.DefaultWorkingDirectory)/.scannerwork/report-task.txt
 
 
     - task: SonarSource.sonarqube.291ed61f-1ee4-45d3-b1b0-bf822d9095ef.SonarQubePublish@4
