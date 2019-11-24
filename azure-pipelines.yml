@@ -75,4 +75,15 @@ stages:
 
           echo $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(chpassword) --server=$(churl)
 
-          $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(chpassword) --server=$(churl) 
+          $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(chpassword) --server=$(churl)
+
+    - task: Bash@3
+      displayName: CloudHedge Login
+      inputs:
+        targetType: 'inline'
+        script: |     
+          echo 'Creating the application blueprint new version'
+
+          echo $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID)
+
+          $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID)       
