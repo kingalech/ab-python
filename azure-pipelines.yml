@@ -78,7 +78,7 @@ stages:
           $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(chpassword) --server=$(churl)
 
     - task: Bash@3
-      displayName: CloudHedge Login
+      displayName: Create AppBluePrint new version
       inputs:
         targetType: 'inline'
         script: |     
@@ -86,4 +86,38 @@ stages:
 
           echo $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID)
 
-          $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID)       
+          $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID)  
+
+    - task: Bash@3
+      displayName: AppBluePrint Services
+      inputs:
+        targetType: 'inline'
+        script: |
+          set -x
+
+          sudo apt  install jq -y
+
+          echo "[$(Build.BuildId)]"
+
+          APPVERSIONID=$($(System.DefaultWorkingDirectory)/chcli cluster listApp | jq '.apps[] |  select(.name == "d1") | .versions[] | select(.name == "dt-$(ENV_NAME)-$(Build.BuildId)") | ._id' | tr -d '"')
+
+          echo "Appversion ID is : $APPVERSIONID"
+
+          echo $(System.DefaultWorkingDirectory)/chcli cluster addService --name=app-tier --appVersion=$APPVERSIONID --image='kingalech/dreamteam' --imageTag=$(Build.BuildId) --port=5000
+
+          $(System.DefaultWorkingDirectory)/chcli cluster addService --name=app-tier --appVersion=$APPVERSIONID --image='kingalech/dreamteam' --imageTag=$(Build.BuildId) --port=5000
+
+    - task: Bash@3
+      displayName: DeployOnCluster
+      inputs:
+        targetType: 'inline'
+        script: |
+          set -x 
+
+          BUILDVERSIONID=$($(System.DefaultWorkingDirectory)/chcli cluster listApp | jq '.apps[] |  select(.name == "d1") | .versions[] | select(.name == "dt-$(ENV_NAME)-$(Build.BuildId)") | ._id' | tr -d '"')         
+
+          echo "$BUILDVERSIONID"
+
+          echo $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) 
+
+          $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId)          
