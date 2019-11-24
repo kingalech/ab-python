@@ -29,15 +29,19 @@ stages:
     - task: SonarSource.sonarqube.6D01813A-9589-4B15-8491-8164AEB38055.SonarQubeAnalyze@4
       displayName: 'Run Code Analysis'
 
+    # - task: Bash@3
+    #   displayName: "Print the task id"
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       # Write your commands here
+    #       echo "Sonar Server is $(sonar_server)"
+    #       sh $(System.DefaultWorkingDirectory)/quality-gate-checker.sh 
     - task: Bash@3
       displayName: "Print the task id"
       inputs:
-        targetType: 'inline'
-        script: |
-          # Write your commands here
-          echo "Sonar Server is $(sonar_server)"
-          sh $(System.DefaultWorkingDirectory)/quality-gate-checker.sh $(sonar_server) $(sonar_token) $(System.DefaultWorkingDirectory)/.scannerwork/report-task.txt
-
+        filePath: "$(System.DefaultWorkingDirectory)/quality-gate-checker.sh"
+        arguments: '$(sonar_server) $(sonar_token) $(System.DefaultWorkingDirectory)/.scannerwork/report-task.txt'
 
     - task: SonarSource.sonarqube.291ed61f-1ee4-45d3-b1b0-bf822d9095ef.SonarQubePublish@4
       displayName: 'Publish Quality Gate Result'
