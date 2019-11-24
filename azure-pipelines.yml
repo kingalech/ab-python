@@ -86,7 +86,8 @@ stages:
 
           echo $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID)
 
-          $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID)  
+          $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID) 
+          sleep 5 
 
     - task: Bash@3
       displayName: AppBluePrint Services
@@ -106,7 +107,7 @@ stages:
           echo $(System.DefaultWorkingDirectory)/chcli cluster addService --name=app-tier --appVersion=$APPVERSIONID --image='kingalech/dreamteam' --imageTag=$(Build.BuildId) --port=5000
 
           $(System.DefaultWorkingDirectory)/chcli cluster addService --name=app-tier --appVersion=$APPVERSIONID --image='kingalech/dreamteam' --imageTag=$(Build.BuildId) --port=5000
-
+          sleep 5
     - task: Bash@3
       displayName: DeployOnCluster
       inputs:
