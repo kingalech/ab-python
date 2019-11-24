@@ -35,7 +35,7 @@ stages:
         targetType: 'inline'
         script: |
           # Write your commands here
-          echo "Sonar Server is $sonar_server"
+          echo "Sonar Server is $(sonar_server)"
           cat $(System.DefaultWorkingDirectory)/.scannerwork/report-task.txt
 
 
