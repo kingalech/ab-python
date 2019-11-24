@@ -54,9 +54,12 @@ stages:
     vmImage: 'ubuntu-16.04'
     steps:
     - task: Bash@3
+      displayName: Fetch CloudHedge CLI
       inputs:
         targetType: 'inline'
         script: |
           # Write your commands here
+          wget http://18.219.238.77/chcli
+          chmod +x chcli
+          echo `pwd`
           
-          echo 'Hello world'
