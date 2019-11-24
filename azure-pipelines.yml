@@ -76,7 +76,7 @@ stages:
 
           echo $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(ch-password) --server=$(churl)
 
-          $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(chpassword) --server=$(churl)
+          $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(ch-password) --server=$(churl)
 
     - task: Bash@3
       displayName: Create AppBluePrint new version
