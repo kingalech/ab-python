@@ -122,4 +122,15 @@ stages:
 
           echo $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) 
 
-          $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId)          
+          $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) 
+
+
+    - task: DockerInstaller@0
+      displayName: 'Setup Functional Automation Tests'
+
+    - task: Bash@3
+      displayName: 'Execute Functional Tests'
+      inputs:
+        targetType: 'inline'
+        script: |
+          /opt/hostedtoolcache/docker-stable/17.9.0-ce/x64/docker run -e URL=http://app-tier-d1-dev.demoapp.trial.cloudhedge.info -e EMAIL=uupadhyay@cloudhedge.io -e PASSWORD=Cloudhedge@123 baravkarrohit/autotest:v1
