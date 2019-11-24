@@ -52,6 +52,9 @@ stages:
   - job: Deploy
     pool:
       vmImage: 'ubuntu-16.04'
+    variables:
+    - group: DEV-Variables
+    - group: GlobalVars
     steps:
     - task: Bash@3
       displayName: Fetch CloudHedge CLI
@@ -62,4 +65,14 @@ stages:
           wget http://18.219.238.77/chcli
           chmod +x chcli
           echo `pwd`
-          
+                              
+    - task: Bash@3
+      displayName: CloudHedge Login
+      inputs:
+        targetType: 'inline'
+        script: |     
+          echo "Logging to Cloudhedge application server"
+
+          echo $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(chpassword) --server=$(churl)
+
+          $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(chpassword) --server=$(churl) 
