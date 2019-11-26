@@ -140,4 +140,14 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          /opt/hostedtoolcache/docker-stable/17.9.0-ce/x64/docker run -e URL=http://app-tier-d1-dev.demoapp.trial.cloudhedge.info -e EMAIL=demo-user@cloudhedge.io -e PASSWORD=Password12345 utpal1048/dreamteam-test:latest
+
+          APP_URL=$($(System.DefaultWorkingDirectory)/chcli url --envId=$(ENV_ID) | jq .urls[] | jq '.portUrls | to_entries[] | "\(.value)"' | tr -d '"' | cut -d : -f 1)
+
+          echo "APP URL detected is - $APP_URL"
+
+          echo "*******************************"
+
+          echo /opt/hostedtoolcache/docker-stable/17.9.0-ce/x64/docker run -e URL="http://$APP_URL" -e EMAIL=demo-user@cloudhedge.io -e PASSWORD=Password12345 utpal1048/dreamteam-test:latest
+
+          /opt/hostedtoolcache/docker-stable/17.9.0-ce/x64/docker run -e URL="http://$APP_URL" -e EMAIL=demo-user@cloudhedge.io -e PASSWORD=Password12345 utpal1048/dreamteam-test:latest
+          
