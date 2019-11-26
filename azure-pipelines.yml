@@ -130,6 +130,7 @@ stages:
 
           $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) --dockerSecret=$(dt-acr-ch-secret)
 
+          sleep 30
 
     - task: DockerInstaller@0
       displayName: 'Setup Functional Automation Tests'
