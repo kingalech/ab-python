@@ -140,4 +140,4 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          /opt/hostedtoolcache/docker-stable/17.9.0-ce/x64/docker run -e URL=http://app-tier-d1-dev.demoapp.trial.cloudhedge.info -e EMAIL=uupadhyay@cloudhedge.io -e PASSWORD=Cloudhedge@123 baravkarrohit/autotest:v1
+          /opt/hostedtoolcache/docker-stable/17.9.0-ce/x64/docker run -e URL=http://app-tier-d1-dev.demoapp.trial.cloudhedge.info -e EMAIL=demo-user@cloudhedge.io -e PASSWORD=Password12345 utpal1048/dreamteam-test:latest
