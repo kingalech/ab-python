@@ -13,6 +13,8 @@ stages:
   - job: Build
     variables:
     - group: SonarQubeVarialbes
+    - group: keys
+
     pool:
       vmImage: 'ubuntu-16.04'
 
@@ -38,12 +40,16 @@ stages:
     - task: SonarSource.sonarqube.291ed61f-1ee4-45d3-b1b0-bf822d9095ef.SonarQubePublish@4
       displayName: 'Publish Quality Gate Result'
 
-
     - task: Docker@2
-      displayName: buildAndPush
+      displayName: 'Docker Login'
       inputs:
-        containerRegistry: kidockerhub
-        repository: kingalech/dreamteam
+        containerRegistry: 'dreamteam-acr'
+        command: 'login'
+    - task: Docker@2
+      displayName: 'Docker Build and Push'
+      inputs:
+        containerRegistry: 'dreamteam-acr'
+        repository: dreamteam
         Dockerfile: 'dreamteam-app/Dockerfile'
 
 - stage: Deploy
@@ -79,19 +85,19 @@ stages:
           $(System.DefaultWorkingDirectory)/chcli login --username=$(chuser) --password=$(ch-password) --server=$(churl)
 
     - task: Bash@3
-      displayName: Create AppBluePrint new version
+      displayName: New version - App BluePrint
       inputs:
         targetType: 'inline'
         script: |     
           echo 'Creating the application blueprint new version'
 
-          echo $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID)
+          echo $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID) --secret=$(dt-acr-ch-secret)
 
-          $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID) 
+          $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID) --secret=$(dt-acr-ch-secret)
           sleep 5 
 
     - task: Bash@3
-      displayName: AppBluePrint Services
+      displayName: App BluePrint Services
       inputs:
         targetType: 'inline'
         script: |
@@ -105,12 +111,12 @@ stages:
 
           echo "Appversion ID is : $APPVERSIONID"
 
-          echo $(System.DefaultWorkingDirectory)/chcli cluster addService --name=app-tier --appVersion=$APPVERSIONID --image='kingalech/dreamteam' --imageTag=$(Build.BuildId) --port=5000
+          echo $(System.DefaultWorkingDirectory)/chcli cluster addService --name=app-tier --appVersion=$APPVERSIONID --image="$(acr-url)/dreamteam" --imageTag=$(Build.BuildId) --port=5000
 
-          $(System.DefaultWorkingDirectory)/chcli cluster addService --name=app-tier --appVersion=$APPVERSIONID --image='kingalech/dreamteam' --imageTag=$(Build.BuildId) --port=5000
+          $(System.DefaultWorkingDirectory)/chcli cluster addService --name=app-tier --appVersion=$APPVERSIONID --image="$(acr-url)/dreamteam" --imageTag=$(Build.BuildId) --port=5000
           sleep 5
     - task: Bash@3
-      displayName: DeployOnCluster
+      displayName: 'App Deploy to Cluster'
       inputs:
         targetType: 'inline'
         script: |
@@ -120,9 +126,9 @@ stages:
 
           echo "$BUILDVERSIONID"
 
-          echo $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) 
+          echo $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) --dockerSecret=$(dt-acr-ch-secret)
 
-          $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) 
+          $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) --dockerSecret=$(dt-acr-ch-secret)
 
 
     - task: DockerInstaller@0
