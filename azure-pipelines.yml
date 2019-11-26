@@ -141,7 +141,7 @@ stages:
         targetType: 'inline'
         script: |
 
-          APP_URL=$($(System.DefaultWorkingDirectory)/chcli url --envId=$(ENV_ID) | jq .urls[] | jq '.portUrls | to_entries[] | "\(.value)"' | tr -d '"' | cut -d : -f 1)
+          APP_URL=$($(System.DefaultWorkingDirectory)/chcli url --envId=$(ENV_ID) | jq .urls[] | jq '.portUrls | to_entries[] | "\(.value)"' | tr -d '"')
 
           echo "APP URL detected is - $APP_URL"
 
