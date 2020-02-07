@@ -23,7 +23,7 @@ stages:
       displayName: 'Submit analysis on SonarQube'
       inputs:
         SonarQube: Sonar
-        scannerMode: CLI
+        scannerMode: CLI5ddcf196250c5a0016ef3f49
         configMode: manual
         cliProjectKey: ab
         cliProjectName: ab
@@ -69,7 +69,7 @@ stages:
         targetType: 'inline'
         script: |
           # Write your commands here
-          wget 'https://ch-cli.s3.amazonaws.com/v3.0.2/chcli_linux?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Expires=3600&X-Amz-Credential=AKIAZENAAZKQV5RZ7TAC%2F20200207%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Date=20200207T092737Z&X-Amz-Signature=e8215eee33d3a4b08aa5447b478191ecbfa73ecb66873e170ab975c9b62e0d0e'
+          wget 'https://ch-cli.s3.amazonaws.com/v3.0.2/chcli_temp?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Expires=3600&X-Amz-Credential=AKIAZENAAZKQV5RZ7TAC%2F20200207%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Date=20200207T111615Z&X-Amz-Signature=aab78221d24f732221208da102afecc3e71d34427b8123e512a0239ba9b9f1c8'
           mv chcli* chcli
           chmod +x chcli
           echo `pwd`
