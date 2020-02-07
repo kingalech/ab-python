@@ -80,6 +80,6 @@ sed -i "5s/.*/export FLASK_DB_HOST=$db_server/" python_app.sh
 cp dreamTeam.service /etc/systemd/system/
 systemctl daemon-reload
 systemctl start dreamTeam.service
-
+echo 'Done'
 echo 'Done'
 ```
