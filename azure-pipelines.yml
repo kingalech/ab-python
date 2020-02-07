@@ -69,8 +69,8 @@ stages:
         targetType: 'inline'
         script: |
           # Write your commands here
-          wget ''
-          mv chcli* https://ch-cli.s3.amazonaws.com/v3.0.2/chcli_linux?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Expires=3600&X-Amz-Credential=AKIAZENAAZKQV5RZ7TAC%2F20200207%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Date=20200207T092737Z&X-Amz-Signature=e8215eee33d3a4b08aa5447b478191ecbfa73ecb66873e170ab975c9b62e0d0echcli
+          wget 'https://ch-cli.s3.amazonaws.com/v3.0.2/chcli_linux?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Expires=3600&X-Amz-Credential=AKIAZENAAZKQV5RZ7TAC%2F20200207%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Date=20200207T092737Z&X-Amz-Signature=e8215eee33d3a4b08aa5447b478191ecbfa73ecb66873e170ab975c9b62e0d0e'
+          mv chcli* chcli
           chmod +x chcli
           echo `pwd`
                               
