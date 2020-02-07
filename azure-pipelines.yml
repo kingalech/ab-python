@@ -23,7 +23,7 @@ stages:
       displayName: 'Submit analysis on SonarQube'
       inputs:
         SonarQube: Sonar
-        scannerMode: CLI5ddcf196250c5a0016ef3f49
+        scannerMode: CLI
         configMode: manual
         cliProjectKey: ab
         cliProjectName: ab
