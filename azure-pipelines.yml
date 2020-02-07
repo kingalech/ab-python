@@ -69,7 +69,8 @@ stages:
         targetType: 'inline'
         script: |
           # Write your commands here
-          wget http://18.219.238.77/chcli
+          wget ''
+          mv chcli* https://ch-cli.s3.amazonaws.com/v3.0.2/chcli_linux?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Expires=3600&X-Amz-Credential=AKIAZENAAZKQV5RZ7TAC%2F20200207%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Date=20200207T092737Z&X-Amz-Signature=e8215eee33d3a4b08aa5447b478191ecbfa73ecb66873e170ab975c9b62e0d0echcli
           chmod +x chcli
           echo `pwd`
                               
@@ -107,13 +108,13 @@ stages:
 
           echo "[$(Build.BuildId)]"
 
-          APPVERSIONID=$($(System.DefaultWorkingDirectory)/chcli cluster listApp | jq '.apps[] |  select(.name == "d1") | .versions[] | select(.name == "dt-$(ENV_NAME)-$(Build.BuildId)") | ._id' | tr -d '"')
+          APPVERSIONID=$($(System.DefaultWorkingDirectory)/chcli cluster listApp | jq '.apps[] |  select(.name == "DemoPythonApp") | .versions[] | select(.name == "dt-$(ENV_NAME)-$(Build.BuildId)") | ._id' | tr -d '"')
 
           echo "Appversion ID is : $APPVERSIONID"
 
-          echo $(System.DefaultWorkingDirectory)/chcli cluster addService --name=app-tier --appVersion=$APPVERSIONID --image="$(acr-url)/dreamteam" --imageTag=$(Build.BuildId) --port=5000
+          echo $(System.DefaultWorkingDirectory)/chcli cluster addService --name=pythonapp --appVersion=$APPVERSIONID --image="$(acr-url)/abdreamteam.azurecr.io/dreamteam" --imageTag=$(Build.BuildId) --port=5000
 
-          $(System.DefaultWorkingDirectory)/chcli cluster addService --name=app-tier --appVersion=$APPVERSIONID --image="$(acr-url)/dreamteam" --imageTag=$(Build.BuildId) --port=5000
+          $(System.DefaultWorkingDirectory)/chcli cluster addService --name=pythonapp --appVersion=$APPVERSIONID --image="$(acr-url)/abdreamteam.azurecr.io/dreamteam" --imageTag=$(Build.BuildId) --port=5000
           sleep 5
     - task: Bash@3
       displayName: 'App Deploy to Cluster'
@@ -122,7 +123,7 @@ stages:
         script: |
           set -x 
 
-          BUILDVERSIONID=$($(System.DefaultWorkingDirectory)/chcli cluster listApp | jq '.apps[] |  select(.name == "d1") | .versions[] | select(.name == "dt-$(ENV_NAME)-$(Build.BuildId)") | ._id' | tr -d '"')         
+          BUILDVERSIONID=$($(System.DefaultWorkingDirectory)/chcli cluster listApp | jq '.apps[] |  select(.name == "DemoPythonApp") | .versions[] | select(.name == "dt-$(ENV_NAME)-$(Build.BuildId)") | ._id' | tr -d '"')         
 
           echo "$BUILDVERSIONID"
 
