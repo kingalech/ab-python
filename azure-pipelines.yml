@@ -48,8 +48,8 @@ stages:
     - task: Docker@2
       displayName: 'Docker Build and Push'
       inputs:
-        containerRegistry: 'dreamteam-acr'
-        repository: dreamteam
+        containerRegistry: 'abdreamteam.azurecr.io'
+        repository: abdreamteam.azurecr.io/dreamteam
         Dockerfile: 'dreamteam-app/Dockerfile'
 
 - stage: Deploy
