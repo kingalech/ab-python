@@ -4,7 +4,7 @@ sonar_token=$1
 sonar_server=$2
 
 #take care for the line where is ceTaskId info in the file /.scannerwork/report-task.txt; 
-#It changes depending of server and sonar scanner version, in my case is at line 5
+#It changes depending of server and sonar scanner version, in my case is at line 5 .
 ceTaskId=$(head -5 $3 | tail -1)
 taskId=$(echo "$ceTaskId" | cut -d'=' -f 2)
 
