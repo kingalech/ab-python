@@ -43,13 +43,13 @@ stages:
     - task: Docker@2
       displayName: 'Docker Login'
       inputs:
-        containerRegistry: 'abpythonapp'
+        containerRegistry: 'pythonapp'
         command: 'login'
     - task: Docker@2
       displayName: 'Docker Build and Push'
       inputs:
-        containerRegistry: 'abpythonapp'
-        repository: abdreamteam.azurecr.io/dreamteam
+        containerRegistry: 'pythonapp'
+        repository: dreamteam.azurecr.io/dreamteam
         Dockerfile: 'dreamteam-app/Dockerfile'
 
 - stage: Deploy
@@ -112,9 +112,9 @@ stages:
 
           echo "Appversion ID is : $APPVERSIONID"
 
-          echo $(System.DefaultWorkingDirectory)/chcli cluster addService --name=pythonapp --appVersion=$APPVERSIONID --image="$(acr-url)/abdreamteam.azurecr.io/dreamteam" --imageTag=$(Build.BuildId) --port=5000
+          echo $(System.DefaultWorkingDirectory)/chcli cluster addService --name=pythonapp --appVersion=$APPVERSIONID --image="$(acr-url)/dreamteam.azurecr.io/dreamteam" --imageTag=$(Build.BuildId) --port=5000
 
-          $(System.DefaultWorkingDirectory)/chcli cluster addService --name=pythonapp --appVersion=$APPVERSIONID --image="$(acr-url)/abdreamteam.azurecr.io/dreamteam" --imageTag=$(Build.BuildId) --port=5000
+          $(System.DefaultWorkingDirectory)/chcli cluster addService --name=pythonapp --appVersion=$APPVERSIONID --image="$(acr-url)/dreamteam.azurecr.io/dreamteam" --imageTag=$(Build.BuildId) --port=5000
           sleep 5
     - task: Bash@3
       displayName: 'App Deploy to Cluster'
