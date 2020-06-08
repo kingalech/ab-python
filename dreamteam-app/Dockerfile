@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 RUN apt-get update -y
-RUN apt-get install -y python-pip python-dev build-essential libmysqlclient-dev gcc libssl-dev
+RUN apt-get install -y  python-dev build-essential libmysqlclient-dev gcc libssl-dev
 
 COPY . /app
 WORKDIR /app
