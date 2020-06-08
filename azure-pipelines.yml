@@ -43,12 +43,12 @@ stages:
     - task: Docker@2
       displayName: 'Docker Login'
       inputs:
-        containerRegistry: 'dreamteam'
+        containerRegistry: 'azureacr'
         command: 'login'
     - task: Docker@2
       displayName: 'Docker Build and Push'
       inputs:
-        containerRegistry: 'dreamteam'
+        containerRegistry: 'azureacr'
         repository: dreamteam.azurecr.io/dreamteam
         Dockerfile: 'dreamteam-app/Dockerfile'
 
