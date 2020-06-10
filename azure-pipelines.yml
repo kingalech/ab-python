@@ -109,7 +109,7 @@ stages:
 
           echo "[$(Build.BuildId)]"
 
-          APPVERSIONID=$($(System.DefaultWorkingDirectory)/chcli cluster listApp | jq '.apps[] |  select(.name == "DemoPythonApp") | .versions[] | select(.name == "dt-$(ENV_NAME)-$(Build.BuildId)") | ._id' | tr -d '"')
+          APPVERSIONID=$($(System.DefaultWorkingDirectory)/chcli cluster listApp | jq '.apps[] |  select(.name == "dreamteampython") | .versions[] | select(.name == "dt-$(ENV_NAME)-$(Build.BuildId)") | ._id' | tr -d '"')
 
           echo "Appversion ID is : $APPVERSIONID"
 
@@ -124,7 +124,7 @@ stages:
         script: |
           set -x 
 
-          BUILDVERSIONID=$($(System.DefaultWorkingDirectory)/chcli cluster listApp | jq '.apps[] |  select(.name == "DemoPythonApp") | .versions[] | select(.name == "dt-$(ENV_NAME)-$(Build.BuildId)") | ._id' | tr -d '"')         
+          BUILDVERSIONID=$($(System.DefaultWorkingDirectory)/chcli cluster listApp | jq '.apps[] |  select(.name == "dreamteampython") | .versions[] | select(.name == "dt-$(ENV_NAME)-$(Build.BuildId)") | ._id' | tr -d '"')         
 
           echo "$BUILDVERSIONID"
 
