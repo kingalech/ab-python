@@ -128,9 +128,9 @@ stages:
 
           echo "$BUILDVERSIONID"
 
-          echo $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID)  --dockerSecret=$(dt-acr-ch-secret)
+          echo $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) 
 
-          $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID)  --dockerSecret=$(dt-acr-ch-secret) 
+          $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID)   
 
           sleep 30
 
