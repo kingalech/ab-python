@@ -113,9 +113,9 @@ stages:
 
           echo "Appversion ID is : $APPVERSIONID"
 
-          echo $(System.DefaultWorkingDirectory)/chcli cluster addService --name=pythonapp --appVersion=$APPVERSIONID --image="$(acr-url)/dreamteam.azurecr.io/dreamteam" --imageTag=$(Build.BuildId) --port=5000
+          echo $(System.DefaultWorkingDirectory)/chcli cluster addService --name=pythonapp --appVersion=$APPVERSIONID --image="$(acr-url)/dreamteam.azurecr.io/dreamteam" --imageTag=$(Build.BuildId) --port=5000 -eName=FLASK_CONFIG -eValue=development -eName=FLASK_APP -eValue=run.py -eName=FLASK_DB_HOST -eValue=3.128.29.224 --IPType=LB
 
-          $(System.DefaultWorkingDirectory)/chcli cluster addService --name=pythonapp --appVersion=$APPVERSIONID --image="$(acr-url)/dreamteam.azurecr.io/dreamteam" --imageTag=$(Build.BuildId) --port=5000
+          $(System.DefaultWorkingDirectory)/chcli cluster addService --name=pythonapp --appVersion=$APPVERSIONID --image="$(acr-url)/dreamteam.azurecr.io/dreamteam" --imageTag=$(Build.BuildId) --port=5000 -eName=FLASK_CONFIG -eValue=development -eName=FLASK_APP -eValue=run.py -eName=FLASK_DB_HOST -eValue=3.128.29.224 --IPType=LB
           sleep 5
     - task: Bash@3
       displayName: 'App Deploy to Cluster'
@@ -130,7 +130,7 @@ stages:
 
           echo $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) --dockerSecret=$(dt-acr-ch-secret)
 
-          $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) --dockerSecret=$(dt-acr-ch-secret) -eName=FLASK_CONFIG -eValue=development -eName=FLASK_APP -eValue=run.py -eName=FLASK_DB_HOST -eValue=3.128.29.224 --IPType=LB
+          $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) --dockerSecret=$(dt-acr-ch-secret) 
 
           sleep 30
 
