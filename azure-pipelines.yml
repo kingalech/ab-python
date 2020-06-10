@@ -130,7 +130,7 @@ stages:
 
           echo $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) --dockerSecret=$(dt-acr-ch-secret)
 
-          $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) --dockerSecret=$(dt-acr-ch-secret)
+          $(System.DefaultWorkingDirectory)/chcli redeploy --appId=$(APP_BLUEPRINT_ID) --appVersionId=$BUILDVERSIONID --clusterId=$(CLUSTER_ID)  --env=$(ENV_ID) --imageTag=$(Build.BuildId) --dockerSecret=$(dt-acr-ch-secret) -eName=FLASK_CONFIG -eValue=development -eName=FLASK_APP -eValue=run.py -eName=FLASK_DB_HOST -eValue=3.128.29.224 --IPType=LB
 
           sleep 30
 
