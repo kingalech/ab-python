@@ -92,7 +92,7 @@ stages:
         targetType: 'inline'
         script: |     
           echo 'Creating the application blueprint new version'
-
+         
           echo $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID) --secret=$(dt-acr-ch-secret)
 
           $(System.DefaultWorkingDirectory)/chcli  cluster addVersion --versionName="dt-$(ENV_NAME)-$(Build.BuildId)"  --blueprintId=$(APP_BLUEPRINT_ID) --secret=$(dt-acr-ch-secret)
@@ -112,6 +112,10 @@ stages:
           APPVERSIONID=$($(System.DefaultWorkingDirectory)/chcli cluster listApp | jq '.apps[] |  select(.name == "dreamteampython") | .versions[] | select(.name == "dt-$(ENV_NAME)-$(Build.BuildId)") | ._id' | tr -d '"')
 
           echo "Appversion ID is : $APPVERSIONID"
+          echo 'FLASK_CONFIG,development
+                FLASK_APP,run.py
+                FLASK_DB_HOST,3.133.99.233' > $(System.DefaultWorkingDirectory)/envvars.csv
+
 
           echo $(System.DefaultWorkingDirectory)/chcli cluster addService --name=pythonapp --appVersion=$APPVERSIONID --image="$(acr-url)/dreamteam.azurecr.io/dreamteam" --imageTag=$(Build.BuildId) --port=5000 --envVarFile=envvars.csv --IPType=LB
 
